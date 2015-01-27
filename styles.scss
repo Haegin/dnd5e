@@ -1,0 +1,48 @@
+body, input {
+  font-size: large;
+  font-family: sans-serif;
+}
+
+table.attributes {
+  border-collapse: collapse;
+  width: 18em;
+  line-height: 1.8em;
+  tbody {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+  }
+  p {
+    padding: 0;
+    margin: 0.3em;
+  }
+  label {
+    margin-left: 1em;
+    float: left;
+    width: 6em;
+  }
+  input {
+    padding: 0.3em;
+    margin: 0;
+    width: 2em;
+    height: 1.5em;
+    border: 1px solid #ccc;
+    color: #888;
+    text-align: center;
+  }
+  span {
+    width: 1.5em;
+    height: 1.5em;
+    display: inline-block;
+    text-align: center;
+    margin-left: 1em;
+    &.total {
+      font-weight: bold;
+    }
+    &.modified {
+      color: #f0f;
+    }
+    &.modifier {
+      text-align: right;
+    }
+  }
+}

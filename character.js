@@ -42,10 +42,9 @@ var Attribute = React.createClass({
 });
 
 var AttributeList = React.createClass({
-  attributes: ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'],
   render: function () {
     var modifiers = this.props.modifiers;
-    var attributeNodes = this.attributes.map(function(attributeName) {
+    var attributeNodes = window.ruleset.attributes.map(function(attributeName) {
       var mod = modifiers[attributeName.toLowerCase()];
       return (<Attribute modifier={mod} name={attributeName} key={attributeName} />);
     });
@@ -73,50 +72,54 @@ var Editable = React.createClass({
 });
 
 var RaceSelect = React.createClass({
-  races: ["Human", "Dwarf", "Elf", "Halfling", "Gnome", "Dragonborn", "Half Elf", "Half Orc", "Tiefling", "Aasimar"],
-  getInitialState: function() {
-    return {race: localStorage.getItem("race")}
-  },
   update: function() {
     var newRace = this.refs.race.getDOMNode().value.trim();
-    this.props.onChange(newRace);
+    var newSubrace = this.refs.subrace.getDOMNode().value.trim();
+    this.props.onChange(newRace, newSubrace);
   },
   render: function() {
-    var options = this.races.map(function(race) {
-      return (<option value={race} key={race}>{race}</option>);
+    var raceOptions = window.ruleset.races.map(function(race) {
+      return (<option value={race.name} key={race.name}>{race.name}</option>);
     });
-    return <p><select ref="race" onChange={this.update} value={localStorage.getItem("race")}>
-             {options}
-           </select></p>;
+    var subraces = window.ruleset.getRace(this.props.race.name).subraces;
+    var subraceOptions = subraces.map(function(subrace) {
+        return (<option value={subrace.name} key={subrace.name}>{subrace.name}</option>);
+      });
+    var subraceSelect = (<select ref="subrace" onChange={this.update} value={this.props.subrace} style={subraces.length > 0 ? {} : {display: "none"}}>
+        {subraceOptions}
+        </select>);
+    return <p>
+      <select ref="race" onChange={this.update} value={this.props.race.name}>
+        {raceOptions}
+      </select>
+      {typeof(subraceSelect) === "undefined" ? "" : subraceSelect}
+    </p>;
   }
 });
 
 var Character = React.createClass({
   getInitialState: function() {
-    return { race: localStorage.getItem("race") || "Human" }
+    var race = window.ruleset.getRace(localStorage.getItem("race"))
+    return {
+      race: race,
+      subrace: race.getSubrace(localStorage.getItem("subrace"))
+    }
   },
-  racialModifiers: {
-    Human: {strength: 1, dexterity: 1, constitution: 1, intelligence: 1, wisdom: 1, charisma: 1},
-    Dwarf: {constitution: 2},
-    Halfling: {dexterity: 2},
-    Elf: {dexterity: 2},
-    Dragonborn: {strength: 2, charisma: 1},
-    Gnome: {intelligence: 2},
-    'Half Elf': {charisma: 2},
-    'Half Orc': {strength: 2, constitution: 1},
-    Tiefling: {charisma: 2, intelligence: 1},
-    Aasimar: {charisma: 2, wisdom: 1}
-  },
-  changeRace: function(newRace) {
-    this.setState({race: newRace});
-    localStorage.setItem("race", newRace);
+  changeRace: function(newRaceName, newSubraceName) {
+    var race = window.ruleset.getRace(newRaceName)
+    this.setState({
+      race: race,
+      subrace: race.getSubrace(newSubraceName),
+    });
+    localStorage.setItem("race", newRaceName);
+    localStorage.setItem("subrace", newSubraceName);
   },
   render: function() {
     return <div className="character">
              <Editable name="Name" />
              <Editable name="Player" />
-             <RaceSelect onChange={this.changeRace} />
-             <AttributeList modifiers={this.racialModifiers[this.state.race]}/>
+             <RaceSelect onChange={this.changeRace} race={this.state.race} subrace={this.state.subrace.name} />
+             <AttributeList modifiers={this.state.race.getModifiers(this.state.subrace.name)}/>
            </div>;
   }
 });

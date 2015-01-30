@@ -38,6 +38,10 @@ module.exports = function(grunt) {
       css: {
         files: '**/*.scss',
         tasks: ['sass']
+      },
+      test: {
+        files: 'test/specs.js',
+        tasks: ['jasmine']
       }
     },
     connect: {
@@ -56,5 +60,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-browserify');
 
-  grunt.registerTask('default',['connect', 'browserify', 'watch']);
+  grunt.registerTask('default',['connect', 'browserify', 'watch:css']);
+  grunt.registerTask('all',['connect', 'browserify', 'jasmine', 'watch']);
 }

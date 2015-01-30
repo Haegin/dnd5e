@@ -8,10 +8,40 @@ module.exports = function(grunt) {
         }
       }
     },
+    browserify: {
+      app: {
+        files: {
+          'bundle.js': ['js/components/Character.jsx']
+        },
+        options: {
+          transform: ['reactify'],
+          watch: true
+        }
+      },
+      test: {
+        files: {
+          'test/specs.js': ['test/specs/**/*.js']
+        },
+        options: {
+          watch: true
+        }
+      }
+    },
+    jasmine: {
+      dev: {
+        options: {
+          specs: 'test/specs.js'
+        }
+      }
+    },
     watch: {
       css: {
         files: '**/*.scss',
         tasks: ['sass']
+      },
+      test: {
+        files: 'test/specs.js',
+        tasks: ['jasmine']
       }
     },
     connect: {
@@ -23,8 +53,13 @@ module.exports = function(grunt) {
       }
     }
   });
+
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.registerTask('default',['connect', 'watch']);
+  grunt.loadNpmTasks('grunt-contrib-jasmine');
+  grunt.loadNpmTasks('grunt-browserify');
+
+  grunt.registerTask('default',['connect', 'browserify', 'watch:css']);
+  grunt.registerTask('all',['connect', 'browserify', 'jasmine', 'watch']);
 }

@@ -3,3 +3,4 @@ styles.css.map
 .sass-cache
 node_modules
 .yo-rc.json
+bundle.js

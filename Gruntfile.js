@@ -8,6 +8,17 @@ module.exports = function(grunt) {
         }
       }
     },
+    browserify: {
+      all: {
+        files: {
+          'bundle.js': ['js/components/Character.jsx']
+        },
+        options: {
+          transform: ['reactify'],
+          watch: true
+        }
+      }
+    },
     watch: {
       css: {
         files: '**/*.scss',
@@ -23,8 +34,11 @@ module.exports = function(grunt) {
       }
     }
   });
+
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.registerTask('default',['connect', 'watch']);
+  grunt.loadNpmTasks('grunt-browserify');
+
+  grunt.registerTask('default',['connect', 'browserify', 'watch']);
 }

@@ -19,7 +19,7 @@ describe('Race', function () {
   });
 
   it('can get a subrace', function() {
-    expect(dwarf.getSubrace("Hill")).toBe(hill);
+    expect(dwarf.getSubrace("Hill")).toEqual(hill);
   });
 
   it('can combine modifiers with a subrace', function() {

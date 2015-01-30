@@ -10842,7 +10842,7 @@ describe('Race', function () {
   });
 
   it('can get a subrace', function() {
-    expect(dwarf.getSubrace("Hill")).toBe(hill);
+    expect(dwarf.getSubrace("Hill")).toEqual(hill);
   });
 
   it('can combine modifiers with a subrace', function() {
@@ -10862,18 +10862,4 @@ describe('Race', function () {
   });
 });
 
-},{"../../js/race.js":"/Users/harry/dev/dnd5e/js/race.js"}],"/Users/harry/dev/dnd5e/test/specs/test.js":[function(require,module,exports){
-/*global describe, it */
-'use strict';
-
-(function () {
-    describe('Give it some context', function () {
-        describe('maybe a bit more context here', function () {
-            it('should run here few assertions', function () {
-
-            });
-        });
-    });
-})();
-
-},{}]},{},["/Users/harry/dev/dnd5e/test/specs/ruleset.js","/Users/harry/dev/dnd5e/test/specs/test.js"]);
+},{"../../js/race.js":"/Users/harry/dev/dnd5e/js/race.js"}]},{},["/Users/harry/dev/dnd5e/test/specs/ruleset.js"]);

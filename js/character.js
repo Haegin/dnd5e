@@ -3,12 +3,6 @@ var ruleset = require('./ruleset.js');
 
 module.exports = function Character(info) {
 
-  function initialize (character, info) {
-    character.name = info["name"] || "";
-    character.race = info["race"];
-    character.subrace = info["subrace"];
-  };
-
   Object.defineProperties(this, {
     'race': {
       set: function (raceName) {
@@ -25,7 +19,9 @@ module.exports = function Character(info) {
     }
   });
 
-  initialize(this, info);
+  this.name = info["name"] || "";
+  this.race = info["race"];
+  this.subrace = info["subrace"];
 
   this.getModifiers = function () {
     var modifiers = {};

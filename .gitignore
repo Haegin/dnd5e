@@ -4,3 +4,4 @@ styles.css.map
 node_modules
 .yo-rc.json
 bundle.js
+test/specs.js

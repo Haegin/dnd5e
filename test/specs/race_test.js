@@ -22,6 +22,10 @@ describe('Race', function () {
     expect(dwarf.getSubrace("Hill")).toEqual(hill);
   });
 
+  it('returns undefined for a missing subrace', function() {
+    expect(dwarf.getSubrace("Desert")).toEqual(undefined);
+  });
+
   it('can combine modifiers with a subrace', function() {
     var combinedMods = dwarf.getModifiers("Hill");
     expect(combinedMods.constitution).toBe(2);

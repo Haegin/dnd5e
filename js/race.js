@@ -7,7 +7,7 @@ module.exports = function Race(name, info) {
 
   this.getSubrace = function(subraceName) {
     var subrace = _.find(this.subraces, {name: subraceName});
-    return subrace || this.subraces[0];
+    return subrace;
   };
 
   this.getModifiers = function(subraceName) {

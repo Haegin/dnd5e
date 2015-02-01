@@ -14,9 +14,7 @@ module.exports = function(grunt) {
           'bundle.js': ['js/components/Character.jsx']
         },
         options: {
-          browserifyOptions: {
-            debug: true
-          },
+          debug: true,
           transform: ['reactify'],
           watch: true
         }
@@ -26,9 +24,7 @@ module.exports = function(grunt) {
           'test/specs.js': ['test/specs/**/*.js']
         },
         options: {
-          browserifyOptions: {
-            debug: true
-          },
+          debug: true,
           watch: true
         }
       }

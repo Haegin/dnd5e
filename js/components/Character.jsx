@@ -1,60 +1,63 @@
-var ruleset = require('../ruleset.js');
 var React = require('react/addons');
 var _ = require('lodash');
 
+var ruleset = require('../ruleset.js');
+var Attributes = require('../attributes.js');
+
 var Attribute = React.createClass({
-  calculateModifier: function (value) {
-    var mod = Math.floor((value - 10) / 2);
-    return (mod > 0 ? "+" + mod : mod.toString());
-  },
-  getInitialState: function () {
-    return { value: parseInt(localStorage.getItem(this.props.name.toLowerCase()) || 10) };
-  },
-  total: function() {
-    return this.components().reduce(function(acc, curr) { return acc + curr; });
-  },
-  components: function() {
-    var parts = [this.state.value];
-    if (this.props.modifier !== undefined) { parts.push(this.props.modifier) };
-    return parts;
-  },
-  updateAttribute: function () {
-    var newValue = parseInt(this.refs.value.getDOMNode().value.trim());
+  updateAttribute: function (evt) {
+    var newValue = parseInt(evt.target.value);
     localStorage.setItem(this.props.name.toLowerCase(), newValue);
-    this.setState({value: newValue});
+    this.props.change(newValue);
   },
   render: function () {
-    var cx = React.addons.classSet;
-    var classes = cx({
-      'total': true,
-      'modified': this.props.modifier !== undefined
-    });
     return <tr className="attribute">
-             <td><label htmlFor={this.props.name.toLowerCase()}>{this.props.name}</label></td>
+             <td><label htmlFor={this.props.key}>{this.props.name}</label></td>
              <td><input
-               id={this.props.name.toLowerCase()}
+               id={this.props.key}
                className="base"
-               value={this.state.value}
+               value={this.props.value}
                onChange={this.updateAttribute}
                ref="value"
-               title={this.components().join(" + ")}
              /></td>
-             <td><span className={classes}>{this.total()}</span></td>
-             <td><span className="modifier">{this.calculateModifier(this.total())}</span></td>
+             <td><span className="modifier">{this.props.mod}</span></td>
            </tr>;
   }
 });
 
 var AttributeList = React.createClass({
+  getInitialState: function () {
+    return {
+      attributes: new Attributes({
+        strength: localStorage.getItem("strength") || 10,
+        dexterity: localStorage.getItem("dexterity") || 10,
+        constitution: localStorage.getItem("constitution") || 10,
+        intelligence: localStorage.getItem("intelligence") || 10,
+        wisdom: localStorage.getItem("wisdom") || 10,
+        charisma: localStorage.getItem("charisma") || 10,
+      })
+    };
+  },
+  changeAttribute: function (name, value) {
+    var attrs = this.state.attributes;
+    attrs[name] = value;
+    this.setState({ attributes: attrs });
+  },
   render: function () {
-    var modifiers = this.props.modifiers;
+    var that = this;
     var attributeNodes = ruleset.attributes.map(function(attributeName) {
-      var mod = modifiers[attributeName.toLowerCase()];
-      return (<Attribute modifier={mod} name={attributeName} key={attributeName} />);
+      var key = attributeName.toLowerCase();
+      return (<Attribute
+          name={attributeName}
+          key={key}
+          mod={that.state.attributes.getModifier(key)}
+          value={that.state.attributes[key]}
+          change={that.changeAttribute.bind(that, key)}
+          />);
     });
     return <table className="attributes">
              <thead>
-               <tr><th>Attribute</th><th>Base</th><th>Total</th><th>Mod</th></tr>
+               <tr><th>Attribute</th><th>Total</th><th>Mod</th></tr>
              </thead>
              <tbody>
                {attributeNodes}

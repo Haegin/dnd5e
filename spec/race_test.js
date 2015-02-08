@@ -1,7 +1,7 @@
 /*global describe, it */
 'use strict';
 
-var Race = require('../../js/race.js');
+var Race = require('../js/race.coffee');
 
 describe('Race', function () {
   // var dwarf = {name: "Dwarf"};

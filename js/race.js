@@ -27,5 +27,5 @@ module.exports = function Race(name, info) {
         acc[attribute] += modifier;
       }
     });
-  };
+  }
 };

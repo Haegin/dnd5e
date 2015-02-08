@@ -19,9 +19,9 @@ module.exports = function Character(info) {
     }
   });
 
-  this.name = info["name"] || "";
-  this.race = info["race"];
-  this.subrace = info["subrace"];
+  this.name = info.name || "";
+  this.race = info.race;
+  this.subrace = info.subrace;
 
   this.getModifiers = function () {
     var modifiers = {};
@@ -39,5 +39,5 @@ module.exports = function Character(info) {
         acc[attribute] += modifier;
       }
     });
-  };
+  }
 };

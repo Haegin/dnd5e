@@ -104,11 +104,10 @@ var RaceSelect = React.createClass({
   }
 });
 
-var Character = React.createClass({
+
+module.exports = React.createClass({
   getInitialState: function() {
     var race = ruleset.getRace(localStorage.getItem("race"));
-    window.rs = ruleset;
-    console.log(ruleset);
     return {
       race: race,
       subrace: race.getSubrace(localStorage.getItem("subrace")),
@@ -132,8 +131,3 @@ var Character = React.createClass({
            </div>;
   }
 });
-
-React.render(
-  <Character />,
-  document.getElementById("character")
-);

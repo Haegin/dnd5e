@@ -3,12 +3,12 @@ var ruleset = require('./ruleset.js');
 
 module.exports = function Attributes(stats) {
 
-  var attributes = ruleset.attributes.map(function(attr) { return attr.toLowerCase() });
+  var attributes = ruleset.attributes.map(function(attr) { return attr.toLowerCase(); });
 
   var setAttribute = function (name, value) {
-    var value = parseInt(value);
-    if (!isNaN(value)) { this["_" + name] = value };
-  }
+    value = parseInt(value);
+    if (!isNaN(value)) { this["_" + name] = value; }
+  };
 
   Object.defineProperties(this, {
     strength: {

@@ -31,7 +31,7 @@ gulp.task('javascript', function() {
       extension: ['.coffee', '.cjsx', '.jsx'],
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./build/main.js'));
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('connect', function() {

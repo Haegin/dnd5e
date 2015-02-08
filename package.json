@@ -28,7 +28,8 @@
     "coffee-reactify": "~2.1.0",
     "gulp-jasmine": "~2.0.0",
     "jasmine": "~2.2.1",
-    "gulp-concat": "~2.4.3"
+    "gulp-concat": "~2.4.3",
+    "coffee-script": "~1.9.0"
   },
   "dependencies": {
     "lodash": "~3.0.0"

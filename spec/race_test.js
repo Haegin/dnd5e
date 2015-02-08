@@ -1,5 +1,6 @@
 /*global describe, it */
 'use strict';
+require('coffee-script/register');
 
 var Race = require('../js/race.coffee');
 
@@ -27,6 +28,13 @@ describe('Race', function () {
   });
 
   it('can combine modifiers with a subrace', function() {
+    var combinedMods = dwarf.getModifiers("Hill");
+    expect(combinedMods.constitution).toBe(2);
+    expect(combinedMods.wisdom).toBe(1);
+  });
+
+  it('combines modifiers in a non-destructive way', function() {
+    dwarf.getModifiers("Hill");
     var combinedMods = dwarf.getModifiers("Hill");
     expect(combinedMods.constitution).toBe(2);
     expect(combinedMods.wisdom).toBe(1);

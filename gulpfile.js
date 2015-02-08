@@ -49,22 +49,6 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('test:prepare', function() {
-  gulp.src('./spec/**/*.js')
-    .pipe(browserify({
-      insertGlobals: true,
-      debug: true,
-      transform: [
-        ['coffee-reactify'],
-        ['reactify', {'es6': true}],
-        ['es6ify']
-      ],
-      extension: ['.coffee', '.cjsx', '.jsx'],
-    }))
-    .pipe(concat('all.js'))
-    .pipe(gulp.dest('./spec'));
-});
-
 gulp.task('test', function() {
   gulp.src('spec/**/*.js')
     .pipe(jasmine());
@@ -73,7 +57,7 @@ gulp.task('test', function() {
 gulp.task('watch', function() {
   gulp.watch('./js/**/*.js', ['jshint', 'javascript']);
   gulp.watch('./*.html', ['html']);
-  gulp.watch(['./js/**/*.js', './test/specs/**/*_test.js'], ['test']);
+  gulp.watch(['./js/**/*.{js,coffee}', './spec/**/*_test.{js,coffee}'], ['test']);
 });
 
 gulp.task('default', ['connect', 'javascript', 'watch']);

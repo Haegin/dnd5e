@@ -1,8 +1,9 @@
 /*global describe, it */
 'use strict';
+require('coffee-script/register');
 
 var Character = require('../js/character.js');
-var Race = require('../js/race.js');
+var Race = require('../js/race.coffee');
 var ruleset = require('../js/ruleset.js');
 
 describe('Character', function () {

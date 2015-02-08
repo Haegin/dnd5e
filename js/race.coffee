@@ -24,8 +24,9 @@ class Race
   combineModifiers = (acc, mods) ->
     _.forOwn mods, (modifier, attribute) ->
       if acc[attribute]?
-        acc[attribute] = modifier
-      else
         acc[attribute] += modifier
+      else
+        acc[attribute] = modifier
+
 
 module.exports = Race

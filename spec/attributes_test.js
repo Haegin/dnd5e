@@ -1,5 +1,6 @@
 /*global describe, it */
 'use strict';
+require('coffee-script/register');
 
 var Attributes = require('../js/attributes.js');
 

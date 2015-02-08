@@ -1,6 +1,5 @@
-/*global describe, it */
 'use strict';
-require('coffee-script/register');
+require('./spec_helper.js');
 
 var Character = require('../js/character.js');
 var Race = require('../js/race.coffee');

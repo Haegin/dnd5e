@@ -6,3 +6,4 @@ node_modules
 bundle.js
 test/specs.js
 dist
+compiled_specs

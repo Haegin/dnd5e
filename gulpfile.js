@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var connect = require('gulp-connect');
+var coffee = require('gulp-coffee');
 var jasmine = require('gulp-jasmine');
 var browserify = require('gulp-browserify');
 var reactify = require('gulp-reactify');
@@ -50,7 +51,9 @@ gulp.task('jshint', function() {
 });
 
 gulp.task('test', function() {
-  gulp.src('spec/**/*.js')
+  gulp.src('spec/**/*.coffee')
+    .pipe(coffee({bare: true}))
+    .pipe(gulp.dest('./compiled_specs'))
     .pipe(jasmine());
 });
 

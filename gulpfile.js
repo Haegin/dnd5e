@@ -3,12 +3,9 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var connect = require('gulp-connect');
-
+var jasmine = require('gulp-jasmine');
 var browserify = require('gulp-browserify');
 var reactify = require('gulp-reactify');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 
 var getBundleName = function() {
@@ -45,16 +42,21 @@ gulp.task('html', function() {
     .pipe(connect.reload())
 });
 
-
 gulp.task('jshint', function() {
   gulp.src('./js/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
+gulp.task('test', function() {
+  gulp.src('test/specs/**/*_test.js')
+    .pipe(jasmine());
+});
+
 gulp.task('watch', function() {
   gulp.watch('./js/**/*.js', ['jshint', 'javascript']);
   gulp.watch('./*.html', ['html']);
+  gulp.watch(['./js/**/*.js', './test/specs/**/*_test.js'], ['test']);
 });
 
 gulp.task('default', ['connect', 'javascript', 'watch']);

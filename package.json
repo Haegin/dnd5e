@@ -25,7 +25,8 @@
     "gulp-reactify": "~1.1.0",
     "gulp-browserify": "~0.5.1",
     "es6ify": "~1.6.0",
-    "coffee-reactify": "~2.1.0"
+    "coffee-reactify": "~2.1.0",
+    "gulp-jasmine": "~2.0.0"
   },
   "dependencies": {
     "lodash": "~3.0.0"

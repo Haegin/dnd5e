@@ -1,4 +1,4 @@
-var Race = require('./race.js');
+var Race = require('./race.coffee');
 var _ = require('lodash');
 
 module.exports = {

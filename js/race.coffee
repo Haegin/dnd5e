@@ -1,31 +1,31 @@
-var _ = require('lodash');
+_ = require 'lodash'
 
-module.exports = function Race(name, info) {
-  this.name = name;
-  this.modifiers = info.modifiers;
-  this.subraces = info.subraces || [];
+# Race
+# ====
+# A simple class to model a D&D 5e race in JS.
+#
+# Currently supports modifiers and subraces.
+class Race
+  constructor: (name, info) ->
+    @name = name
+    @modifiers = info.modifiers
+    @subraces = info.subraces ? []
 
-  this.getSubrace = function(subraceName) {
-    var subrace = _.find(this.subraces, {name: subraceName});
-    return subrace;
-  };
+  getSubrace: (subraceName) ->
+    _.find @subraces, {name: subraceName}
 
-  this.getModifiers = function(subraceName) {
-    var modifiers = {};
-    combineModifiers(modifiers, this.modifiers);
-    if (typeof(this.getSubrace(subraceName)) !== "undefined") {
-      combineModifiers(modifiers, this.getSubrace(subraceName).modifiers);
-    }
-    return modifiers;
-  };
+  getModifiers: (subraceName) ->
+    modifiers = {}
+    combineModifiers modifiers, @modifiers
+    if @getSubrace(subraceName)?
+      combineModifiers modifiers, @getSubrace(subraceName).modifiers
+    modifiers
 
-  function combineModifiers(acc, mods) {
-    _.forOwn(mods, function(modifier, attribute) {
-      if (typeof acc[attribute] === "undefined") {
-        acc[attribute] = modifier;
-      } else {
-        acc[attribute] += modifier;
-      }
-    });
-  }
-};
+  combineModifiers = (acc, mods) ->
+    _.forOwn mods, (modifier, attribute) ->
+      if acc[attribute]?
+        acc[attribute] = modifier
+      else
+        acc[attribute] += modifier
+
+module.exports = Race

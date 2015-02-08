@@ -1,9 +1,9 @@
 /*global describe, it */
 'use strict';
 
-var Character = require('../../js/character.js');
-var Race = require('../../js/race.js');
-var ruleset = require('../../js/ruleset.js');
+var Character = require('../js/character.js');
+var Race = require('../js/race.js');
+var ruleset = require('../js/ruleset.js');
 
 describe('Character', function () {
 

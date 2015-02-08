@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var connect = require('gulp-connect');
 var jasmine = require('gulp-jasmine');
@@ -48,8 +49,24 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter('default'));
 });
 
+gulp.task('test:prepare', function() {
+  gulp.src('./spec/**/*.js')
+    .pipe(browserify({
+      insertGlobals: true,
+      debug: true,
+      transform: [
+        ['coffee-reactify'],
+        ['reactify', {'es6': true}],
+        ['es6ify']
+      ],
+      extension: ['.coffee', '.cjsx', '.jsx'],
+    }))
+    .pipe(concat('all.js'))
+    .pipe(gulp.dest('./spec'));
+});
+
 gulp.task('test', function() {
-  gulp.src('test/specs/**/*_test.js')
+  gulp.src('spec/**/*.js')
     .pipe(jasmine());
 });
 

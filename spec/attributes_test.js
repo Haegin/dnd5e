@@ -1,7 +1,7 @@
 /*global describe, it */
 'use strict';
 
-var Attributes = require('../../js/attributes.js');
+var Attributes = require('../js/attributes.js');
 
 describe('Attributes', function () {
 

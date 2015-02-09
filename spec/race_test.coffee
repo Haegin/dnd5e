@@ -1,8 +1,8 @@
-require('./spec_helper.js');
+require './spec_helper.js'
 Race = require '../js/race.coffee'
 
 describe 'Race', ->
-  hill = new Race("Hill", {modifiers: {wisdom: 1}})
+  hill = new Race "Hill", {modifiers: {wisdom: 1}}
   dwarf = new Race("Dwarf", {
     modifiers: {constitution: 2},
     subraces: [

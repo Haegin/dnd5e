@@ -50,10 +50,15 @@ gulp.task('jshint', function() {
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('test', function() {
+gulp.task('test:copyHelpers', function() {
+  gulp.src('spec/helpers/*')
+    .pipe(gulp.dest('compiled_specs'))
+});
+
+gulp.task('test', ['test:copyHelpers'], function() {
   gulp.src('spec/**/*.coffee')
     .pipe(coffee({bare: true}))
-    .pipe(gulp.dest('./compiled_specs'))
+    .pipe(gulp.dest('compiled_specs'))
     .pipe(jasmine());
 });
 

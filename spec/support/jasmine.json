@@ -1,7 +1,7 @@
 {
-  "spec_dir": "compiled_specs",
+  "spec_dir": "spec/dist",
   "spec_files": [
-    "**/*[sS]pec.js"
+    "specs.js"
   ],
   "helpers": [
     "helpers/**/*.js"

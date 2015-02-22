@@ -5,3 +5,5 @@ node_modules
 .yo-rc.json
 bundle.js
 test/specs.js
+dist
+compiled_specs

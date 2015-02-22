@@ -11,7 +11,7 @@ class Attribute {
   }
 
   set value(newValue) {
-    base = newValue - this.totalMods;
+    this.base = newValue - this.totalMods;
   }
 
   get base() {
@@ -24,6 +24,18 @@ class Attribute {
 
   get totalMods() {
     return this._modifiers.reduce((prev, curr) => prev + curr, 0);
+  }
+
+  addMod(mod) {
+    this._modifiers.push(mod);
+  }
+
+  removeMod(mod) {
+    var idx = this._modifiers.indexOf(mod);
+    if (idx !== -1)
+      this._modifiers.splice(idx, 1);
+    else
+      throw new Error("Modifier '" + mod + "' not present");
   }
 }
 

@@ -1,5 +1,6 @@
-var Race = require('./race.coffee');
+var Race = require('./race.js');
 var _ = require('lodash');
+var Immutable = require('immutable');
 
 module.exports = {
   races: [
@@ -52,7 +53,7 @@ module.exports = {
       modifiers: {charisma: 2, wisdom: 1}
     }),
   ],
-  attributes: ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'],
+  attributes: Immutable.Set(['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma']),
   getRace: function (name) {
     return _.find(this.races, {'name': name});
   }

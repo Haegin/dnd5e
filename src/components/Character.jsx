@@ -3,6 +3,8 @@ var _ = require('lodash');
 
 var ruleset = require('../ruleset.js');
 var Attributes = require('../attributes.js');
+var Character = require('../character.js');
+var Race = require('../race.js');
 
 var Attribute = React.createClass({
   updateAttribute: function (evt) {
@@ -44,15 +46,14 @@ var AttributeList = React.createClass({
     this.setState({ attributes: attrs });
   },
   render: function () {
-    var that = this;
-    var attributeNodes = ruleset.attributes.map(function(attributeName) {
+    var attributeNodes = ruleset.attributes.map((attributeName) => {
       var key = attributeName.toLowerCase();
       return (<Attribute
           name={attributeName}
           key={key}
-          mod={that.state.attributes.getModifier(key)}
-          value={that.state.attributes[key]}
-          change={that.changeAttribute.bind(that, key)}
+          mod={this.state.attributes.getModifier(key)}
+          value={this.state.attributes[key]}
+          change={this.changeAttribute.bind(this, key)}
           />);
     });
     return <table className="attributes">
@@ -79,6 +80,16 @@ var Editable = React.createClass({
 });
 
 var RaceSelect = React.createClass({
+  propTypes: {
+    race: React.PropTypes.instanceOf(Race),
+    subrace: React.PropTypes.instanceOf(Race)
+  },
+  getDefaultProps: function() {
+    return {
+      race: ruleset.races[0],
+      subrace: ruleset.races[0].subraces[0]
+    }
+  },
   update: function() {
     var newRace = this.refs.race.getDOMNode().value.trim();
     var newSubrace = this.refs.subrace.getDOMNode().value.trim();
@@ -105,19 +116,23 @@ var RaceSelect = React.createClass({
 });
 
 
-module.exports = React.createClass({
+var CharacterSheet = React.createClass({
   getInitialState: function() {
-    var race = ruleset.getRace(localStorage.getItem("race"));
+    var character = new Character({
+      name: localStorage.getItem("name"),
+      race: localStorage.getItem("race"),
+      subrace: localStorage.getItem("subrace")
+    });
     return {
-      race: race,
-      subrace: race.getSubrace(localStorage.getItem("subrace")),
+      character: character,
     }
   },
   changeRace: function(newRaceName, newSubraceName) {
-    var race = ruleset.getRace(newRaceName)
+    var character = this.state.character;
+    character.race = newRaceName;
+    character.subrace = newSubraceName;
     this.setState({
-      race: race,
-      subrace: race.getSubrace(newSubraceName),
+      character: character
     });
     localStorage.setItem("race", newRaceName);
     localStorage.setItem("subrace", newSubraceName);
@@ -126,8 +141,10 @@ module.exports = React.createClass({
     return <div className="character">
              <Editable name="Name" />
              <Editable name="Player" />
-             <RaceSelect onChange={this.changeRace} race={this.state.race} subrace={this.state.subrace.name} />
-             <AttributeList modifiers={this.state.race.getModifiers(this.state.subrace.name)}/>
+             <RaceSelect onChange={this.changeRace} race={this.state.character.race} subrace={this.state.character.subrace} />
+             <AttributeList modifiers={this.state.character.getModifiers()}/>
            </div>;
   }
 });
+
+module.exports = CharacterSheet;

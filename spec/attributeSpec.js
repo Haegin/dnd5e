@@ -5,7 +5,7 @@ describe('Attribute', () => {
     expect(new Attribute(10).value).toEqual(10);
   });
 
-  it('can be created with mods as well', () => {
+  it('can be created with bonuses as well', () => {
     expect(new Attribute(10, 2, 3).value).toEqual(15);
   });
 
@@ -21,34 +21,47 @@ describe('Attribute', () => {
     expect(attr.base).toEqual(12);
   });
 
-  it('lets you add extra mods', () => {
+  it('lets you add extra bonuses', () => {
     var attr = new Attribute(10);
-    attr.addMod(2);
+    attr.addBonus(2);
     expect(attr.value).toEqual(12);
   });
 
-  it('lets you remove mods', () => {
+  it('lets you remove bonuses', () => {
     var attr = new Attribute(10, 2, 3);
-    attr.removeMod(3);
+    attr.removeBonus(3);
     expect(attr.value).toEqual(12);
   });
 
-  it('only removes one mod at a time', () => {
+  it('only removes one bonus at a time', () => {
     var attr = new Attribute(10, 2, 2);
-    attr.removeMod(2);
+    attr.removeBonus(2);
     expect(attr.value).toEqual(12);
   });
 
-  it("errors when trying to remove a mod that isn't there", () => {
+  it("errors when trying to remove a bonus that isn't there", () => {
     var attr = new Attribute(10);
-    expect( () => attr.removeMod(3) ).toThrow(new Error("Modifier '3' not present"));
+    expect( () => attr.removeBonus(3) ).toThrow(new Error("Bonus '3' not present"));
   });
 
-  it("doesn't modify the total when removing a non-existant mod", () => {
+  it("doesn't modify the total when removing a non-existant bonus", () => {
     var attr = new Attribute(10, 2);
     try {
-      attr.removeMod(5);
+      attr.removeBonus(5);
     } catch (e) {}
     expect(attr.value).toEqual(12);
+  });
+
+  it("can calculate it's modifier", () => {
+    expect(new Attribute(14).modifier).toEqual(2);
+    expect(new Attribute(17).modifier).toEqual(3);
+
+    expect(new Attribute(8).modifier).toEqual(-1);
+    expect(new Attribute(5).modifier).toEqual(-3);
+  });
+
+  it("includes both the base and the bonuses when calculating the modifier", () => {
+    expect(new Attribute(13, 2).modifier).toEqual(2);
+    expect(new Attribute(13, -4).modifier).toEqual(-1);
   });
 });

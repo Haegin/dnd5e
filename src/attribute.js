@@ -1,17 +1,17 @@
 var _ = require('lodash');
 
 class Attribute {
-  constructor(base, ...modifiers) {
+  constructor(base, ...bonuses) {
     this._base = base;
-    this._modifiers = modifiers;
+    this._bonuses = bonuses;
   }
 
   get value() {
-    return this._base + this.totalMods;
+    return this._base + this.totalBonus;
   }
 
   set value(newValue) {
-    this.base = newValue - this.totalMods;
+    this.base = newValue - this.totalBonus;
   }
 
   get base() {
@@ -22,21 +22,25 @@ class Attribute {
     this._base = base;
   }
 
-  get totalMods() {
-    return this._modifiers.reduce((prev, curr) => prev + curr, 0);
+  get totalBonus() {
+    return this._bonuses.reduce((prev, curr) => prev + curr, 0);
   }
 
-  addMod(mod) {
-    this._modifiers.push(mod);
+  addBonus(bonus) {
+    this._bonuses.push(bonus);
   }
 
-  removeMod(mod) {
-    var idx = this._modifiers.indexOf(mod);
+  removeBonus(bonus) {
+    var idx = this._bonuses.indexOf(bonus);
     if (idx !== -1)
-      this._modifiers.splice(idx, 1);
+      this._bonuses.splice(idx, 1);
     else
-      throw new Error("Modifier '" + mod + "' not present");
+      throw new Error("Bonus '" + bonus + "' not present");
   }
+
+  get modifier() {
+    return Math.floor((this.value - 10) / 2);
+  };
 }
 
 module.exports = Attribute;
